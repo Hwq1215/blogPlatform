@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Sign in Console</title>
+
+		<!-- Favicons -->
+		<link href="/assets/img/fivecoinsIcon.png" rel="icon">
+		<link href="/assets/img/fivecoinsIcon.png" rel="apple-touch-icon">
+		<!-- Bootstrap core CSS -->
+		<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/assets/css/style.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+	</head>
+
+	<body class="text-center">
+	<div class="box" >
+		<div class="col-6 ">
+			<form class="card" th:action="@{/login/rec}">
+				<div class="card-body">
+
+					<img src="/assets/img/fivecoinsIcon.png" alt="" width="26" height="27">
+					<span class="card-title">输入通行码</span>
+					<div class="card-title"></div>
+					<div>
+						<label>
+							<input type="password" name="password" class="form-control" placeholder="通信码">
+						</label>
+					</div>
+				</div>
+				<p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" value="remember-me"> 记住我
+					</label>
+					<div>
+						<button class="btn btn-primary" type="submit">登录</button>
+						<a th:href="@{/}" class="btn btn-warning">返回</a>
+					</div>
+					<div class="card-title"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+	</body>
+
+</html>

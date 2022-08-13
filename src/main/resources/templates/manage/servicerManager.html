@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>fivecoins'blog</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/assets/img/fivecoinsIcon.png" rel="icon">
+  <link href="/assets/img/fivecoinsIcon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/assets/css/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/plugins/xterm/css/xterm.css">
+  <script type="text/javascript" src="/plugins/xterm/lib/xterm.js"></script>
+  <script type="text/javascript" src="/plugins/xterm-addon/lib/xterm-addon-attach.js"></script>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="/assets/img/logo.png"  alt="">
+        <span class="d-none d-lg-block">fivecoins'blog</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+    <div>
+      <!--empty-->
+    </div>
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="search/whole">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="search/whole">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
+      </ul>
+    </nav>
+    <div class="header-nav ms-auto">
+      <a th:href="@{/}" class="d-flex align-content-center"><button type="button" class="btn btn-light" >回到博客</button></a>
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{/manage/index}">
+          <i class="bi bi-grid"></i>
+          <span>管理博客内容</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/manage/service/index}">
+          <i class="bi bi-file-earmark"></i>
+          <span>服务器管理</span>
+        </a>
+      </li>
+      <!-- end blog Page-->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{/connect}">
+          <i class="bi bi-envelope"></i>
+          <span>工具管理</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+        <!-- Left side columns -->
+
+        <div class="col-xxl-10 col-12" >
+  <div class="card">
+    <div class="card-body">
+      <input hidden="hidden" id="select" th:value="${selectservicer}"/>
+<!--      <input hidden="hidden" id="ws-url" th:value="${wsurl}">-->
+        <div id="xterm"></div>
+    </div>
+  </div>
+        </div>
+      <div class="col-xxl-2 col=12">
+        <table class="table" th:each="servicer:${servicers}">
+          <tbody>
+          <tr>
+            <td>
+              <a th:text="${servicer.getName()}" th:class="((${servicer.getName()}==${selectservicer})?'btn btn-primary' : 'btn btn-light')" th:href="@{'/manage/service/index/'+${servicer.getName()}}"></a>
+            </td>
+            <td>
+              <a class="ri-delete-bin-2-line" th:href="@{'/manage/service/delete/' + ${servicer.getName()}}"></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="card">
+          <div class="card-body">
+            <form class="row g-1" th:action="@{/manage/service/add}" method="post">
+              <div class="col-12">
+                <label class="form-label">name:
+                  <input type= "text" class="form-control" name="name">
+                </label>
+              </div>
+              <div class="col-12">
+                <label class="form-label" >host:
+                  <input type= "text" class="form-control" name="host">
+                </label>
+              </div>
+              <div class="col-12">
+                <label class="form-label" >admin:
+                  <input type= "text" class="form-control" name="admin">
+                </label>
+              </div>
+              <div class="col-12">
+                <label class="form-label" >password:
+                  <input type= "text" class="form-control" name="password">
+                </label>
+              </div>
+              <button class="btn btn-primary btn-t" type="submit">添加</button>
+            </form>
+          </div>
+        </div>
+
+
+
+      </div>
+</div>
+
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+<!--    <div class="copyright">-->
+<!--      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved-->
+<!--    </div>-->
+    <div class="credits">blog from fivecoins</div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      To change the world
+    </div>
+  </footer><!-- End Footer -->
+
+  <!--xterm.js-->
+  <script>
+    function GetsocketUrl(){
+        var url = document.location.toString();
+        if(url.indexOf("http")!==url.length){
+          var arrUrl = url.split("/");
+            return arrUrl[2] + '/';
+        }
+        var resUrl = url.split("/");
+      return url[0] +'/';
+    }
+    const socketURL='ws://'+ GetsocketUrl() + 'ssh/service/' + document.getElementById("select").value;
+    //!!这里一定要用域名或ip，不能用127.0.0.1 不然移动端会出错
+    //var socket = new WebSocket("ws://127.0.0.1:8085/ssh/service/"+document.getElementById("select").value);
+    let socket = new WebSocket(socketURL);
+    //连接打开事件
+    socket.onopen = function() {
+      console.log("Socket 已打开");
+    };
+    //收到消息事件
+    socket.onmessage = function(msg) {
+      console.log(msg);
+      term.write(msg.data);//把接收的数据写到这个插件的屏幕上
+      if(msg.data.indexOf('连接成功，sessionId=')!==-1){
+        var sessionId = msg.data.slice(15);
+        console.log(sessionId);
+      }else{
+        console.log("常规数据："+msg.data);
+      }
+    };
+    //连接关闭事件
+    socket.onclose = function() {
+      console.log("Socket已关闭");
+    };
+    //发生了错误事件
+    socket.onerror = function() {
+      alert("Socket发生了错误");
+    }
+    var commandKey = [];
+    var term = new Terminal({
+      rendererType: "canvas", //渲染类型
+      rows: parseInt(30), //行数
+      cols: parseInt(106), // 不指定行数，自动回车后光标从下一行开始
+      convertEol: true, //启用时，光标将设置为下一行的开头
+      scrollback: 1000, //终端中的回滚量
+      disableStdin: false, //是否应禁用输入
+      cursorStyle: "block", //光标样式
+      cursorBlink: true, //光标闪烁
+      fontWeight: 600,
+      theme: {
+        foreground: "#021e54", //字体
+        background: "#ffffff", //背景色
+        cursor: "#6bf235" //设置光标
+      }
+    });
+    // const attachAddon = new AttachAddon(socket);
+    // term.loadAddon(attachAddon);
+    term.open(document.getElementById("xterm"));
+    // 支持输入与粘贴方法
+    term.onData(function(key) {
+      // console.log("|"+key+"|");
+      // commandKey.push(key);
+      // console.log(commandKey);
+      // term.write(key);
+      socket.send(key); //转换为字符串
+    });
+
+    term.onLineFeed(function(){
+      console.log("执行换行"+JSON.stringify(commandKey))
+    });
+
+    term.onTitleChange(function(key){
+      console.log("onTitleChange:"+key);
+    });
+
+    function closeA(){
+      socket.close();
+    }
+
+
+    function runFakeTerminal() {
+      if (term._initialized) {
+        return;
+      }
+      term._initialized = true;
+      term.prompt = () => {
+        term.write('\r\n~$ ');
+      };
+      term.writeln('Welcome to xterm.js');
+      prompt(term);
+      term.onKey(e => {
+        const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
+        if (e.domEvent.keyCode === 13) {
+          prompt(term);
+        } else if (e.domEvent.keyCode === 8) {
+          // Do not delete the prompt
+          if (term._core.buffer.x > 2) {
+            // term.write('\b \b')
+          }
+        } else if (printable) {
+          // term.write(e.key);
+        }
+        console.log(commandKey);
+        console.log("key::"+e.domEvent.keyCode);
+      });
+    }
+    function prompt(term) {
+      // term.write('\r\n~$ ');
+      // term.focus();
+    }
+    runFakeTerminal();
+
+  </script>
+
+</body>
+
+</html>

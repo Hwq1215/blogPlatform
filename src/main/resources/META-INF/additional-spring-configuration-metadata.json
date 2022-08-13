@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "web.upload",
+      "type": "java.lang.String",
+      "description": "Description for web.upload."
+    },
+    {
+      "name": "doc.url",
+      "type": "java.lang.String",
+      "description": "Description for doc.url."
+    },
+    {
+      "name": "doc.path",
+      "type": "java.lang.String",
+      "description": "Description for doc.path."
+    },
+    {
+      "name": "console.password",
+      "type": "java.lang.String",
+      "description": "Description for console.password."
+    }
+  ] }
